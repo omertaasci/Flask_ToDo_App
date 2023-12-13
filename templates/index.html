@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Todo App</title>
+    <!-- Link to Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <div class="container mt-5">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h1 class="app-title">Todo App</h1>
+            <div class="custom-control custom-switch">
+                <input type="checkbox" class="custom-control-input" id="darkModeToggle">
+                <label class="custom-control-label" for="darkModeToggle">Dark Mode</label>
+            </div>
+        </div>
+        <form action="/add" method="POST" class="mb-3">
+            <div class="input-group">
+                <input type="text" name="content" class="form-control" required>
+                <div class="input-group-append">
+                    <button type="submit" class="btn btn-primary">Add Todo</button>
+                </div>
+            </div>
+        </form>
+        <ul class="list-group">
+            {% for todo in todos %}
+                <li class="list-group-item d-flex justify-content-between align-items-center {% if todo.completed %}completed{% endif %}">
+                    <span>
+                        {{ todo.content }}
+                    </span>
+                    <div class="ml-auto">
+                        <a href="{{ url_for('complete_todo', id=todo.id) }}" class="btn btn-success btn-sm">Complete</a>
+                        <a href="{{ url_for('delete_todo', id=todo.id) }}" class="btn btn-danger btn-sm">Delete</a>
+                    </div>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+    <!-- Link to Bootstrap JS and Popper.js -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
